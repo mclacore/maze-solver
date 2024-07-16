@@ -61,18 +61,75 @@ class Line:
 
 
 class Cell:
-    def __init__(self, has_left_wall, has_right_wall, has_top_wall, has_bottom_wall, _x1, _x2, _y1, _y2, _win):
-        foo
-        # ]M
+    def __init__(self, _x1, _x2, _y1, _y2, _win, has_left_wall=True, has_right_wall=True, has_top_wall=True, has_bottom_wall=True):
+        self.has_left_wall = has_left_wall
+        self.has_right_wall = has_right_wall
+        self.has_top_wall = has_top_wall
+        self.has_bottom_wall = has_bottom_wall
+        self._x1 = _x1
+        self._x2 = _x2
+        self._y1 = _y1
+        self._y2 = _y2
+        self._win = _win
+
+
+    def draw(self, fill_color, canvas):
+        if self.has_left_wall:
+            canvas.create_line(
+                self._x1,
+                self._y1,
+                self._x1,
+                self._y2,
+                fill=fill_color,
+                width=2
+            )
+        if self.has_right_wall:
+            canvas.create_line(
+                self._x2,
+                self._y1,
+                self._x2,
+                self._y2,
+                fill=fill_color,
+                width=2
+            )
+        if self.has_top_wall:
+            canvas.create_line(
+                self._x1,
+                self._y1,
+                self._x2,
+                self._y1,
+                fill=fill_color,
+                width=2
+            )
+        if self.has_bottom_wall:
+            canvas.create_line(
+                self._x1,
+                self._y2,
+                self._x2,
+                self._y2,
+                fill=fill_color,
+                width=2
+            )
+
+
+    def draw_move(self, to_cell, undo=False):
+        
 
 
 
 def main():
     win = Window(800, 600)
-    start_point = Point(100, 100)
-    end_point = Point(400, 300)
-    line = Line(start_point, end_point)
-    win.draw_line(line, "red")
+
+    canvas = win.canvas
+
+    cell1 = Cell(100, 200, 100, 200, win)
+    cell2 = Cell(200, 300, 100, 200, win, has_top_wall=False)
+    cell3 = Cell(100, 200, 200, 300, win, has_left_wall=False, has_bottom_wall=False)
+
+    cell1.draw("black", canvas)
+    cell2.draw("red", canvas)
+    cell3.draw("blue", canvas)
+
     win.wait_for_close()
 
 
